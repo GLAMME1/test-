@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  reindexer:
+    image: reindexer/reindexer:latest
+    ports:
+      - "9088:9088"
+      - "6534:6534"
+    volumes:
+      - reindexer_data:/var/lib/reindexer
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "9088"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  reindexer_data:
+    driver: local
