@@ -32,7 +32,6 @@ func TestReindexerService(t *testing.T) {
 	doc1 := Document{
 		ID:   1,
 		Name: "Тестовый Документ 1",
-		Desc: "Это описание первого тестового документа",
 		SubDocsLevel1: []SubDocument{
 			{
 				Field1: "sub1_1", Field2: 10, Sort: 3,
@@ -68,7 +67,6 @@ func TestReindexerService(t *testing.T) {
 	assert.NotNil(retrievedDoc, "Документ не должен быть пустым")
 	assert.Equal(doc1.ID, retrievedDoc.ID, "ID должен совпадать")
 	assert.Equal(doc1.Name, retrievedDoc.Name, "Имя должно совпадать")
-	assert.Equal(doc1.Desc, retrievedDoc.Desc, "Описание должно совпадать")
 	log.Printf("Прочитали документ: %+v\n", *retrievedDoc)
 
 	// Проверяем сортировку и обработку полей
@@ -84,7 +82,6 @@ func TestReindexerService(t *testing.T) {
 
 	// 3. Обновляем документ
 	doc1.Name = "Обновленный Документ 1"
-	doc1.Desc = "Обновленное описание"
 	err = UpdateDocument(doc1)
 	assert.NoError(err, "Должно быть без ошибок при обновлении")
 	log.Println("Документ 1 обновлен")
@@ -93,14 +90,12 @@ func TestReindexerService(t *testing.T) {
 	assert.NoError(err, "Должно быть без ошибок при чтении обновленного")
 	assert.NotNil(retrievedDoc, "Обновленный документ не должен быть пустым")
 	assert.Equal("Обновленный Документ 1", retrievedDoc.Name, "Имя должно обновиться")
-	assert.Equal("Обновленное описание", retrievedDoc.Desc, "Описание должно обновиться")
 	log.Printf("Прочитали обновленный: %+v\n", *retrievedDoc)
 
 	// 4. Проверяем список документов с пагинацией
 	doc2 := Document{
 		ID:   2,
 		Name: "Тестовый Документ 2",
-		Desc: "Это описание второго тестового документа",
 		SubDocsLevel1: []SubDocument{
 			{
 				Field1: "sub1_A", Field2: 15, Sort: 5,
